@@ -68,7 +68,7 @@ services:
 
   celery:
     restart: "always"
-    build: .
+#    build:
 #      context: ../..
 #      dockerfile: celery.dockerfile
     container_name: celery
