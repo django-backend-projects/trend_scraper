@@ -1,0 +1,17 @@
+{% if results %}
+    {% csrf_token %}
+    <ul class="list-group col-xs-12">
+    {% for account in results %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            {{ account.client_id }}
+            <span class="badge badge-success badge-pill" 
+                style="cursor: pointer;"
+                hx-post="{% url 'add-account' %}"
+                hx-vals='{"client_id": "{{account.client_id}}"}'
+                hx-target="#account-list">Yoxla</span>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nəticə tapılmadı</p>
+{% endif %}

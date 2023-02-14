@@ -1,0 +1,20 @@
+{% for package in results %}
+    {% if forloop.last and results.has_next %}
+    <tr hx-get="{% url 'account-detail' account.slug %}?page={{ results.number|add:1 }}" hx-trigger="revealed" hx-swap="afterend" hx-target="this">
+    {% else %}
+    <tr>
+    {% endif %}
+        <td>{{ package.delivery.order_number }}</td>
+        <td>{{ package.delivery.order_date }}</td>
+        <td>{{ package.delivery.order_receiver }}</td>
+        <td>{{ package.package_number }}</td>
+        <td>{{ package.cargo_company }}</td>
+        <td>{{ package.tracking_number }}</td>
+        <td>{{ package.category }}</td>
+        <td>{{ package.price }}</td>
+        <td>{{ package.product_count }}</td>
+        <td>
+        <button class="btn btn-danger" hx-delete="/done-package/{{ package.id }}">Sil</button>
+        </td>
+    </tr>
+{% endfor %}

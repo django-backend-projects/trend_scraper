@@ -1,0 +1,41 @@
+<div class="d-flex justify-content-between">
+
+<section class="col-6">
+    {% if messages %}
+    <ul class="messages" hx-get="{% url 'clear' %}" hx-trigger="load delay:3s">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if accounts %}
+        {% csrf_token %}
+        <ul class="list-group col-xs-12">
+        {% for account in accounts %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <a href="{% url 'account-detail' account.slug %}">{{ account.client_id }}</a>
+                {% if account.done %}
+                <span class="badge badge-success badge-pill">Bağlama bitib</span>
+                {% else %}
+                <span class="badge badge-info badge-pill">Bağlama qalıb</span>
+                {% endif %}
+
+                {% if account.is_processing %}
+                <span class="badge badge-info badge-pill">yoxlanılır...</span>
+                {% else %}
+                <span class="badge badge-success badge-pill">proses bitib</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Prosesdə olan istifadəçi yoxdur</p>
+    {% endif %}
+
+</section>
+
+<section class="col-4 offset-1">
+    {% include 'partials/search.html' %}
+</section>
+</div>

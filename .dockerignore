@@ -1,0 +1,10 @@
+*.pyc
+media/*
+.idea/
+.venv/
+*.pyc
+.git/
+bin/dev/pgdb
+bin/dev/redisdb
+bin/staging/postgredb
+bin/staging/redisdb

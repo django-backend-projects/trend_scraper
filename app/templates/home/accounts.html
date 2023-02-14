@@ -1,0 +1,16 @@
+{% extends 'base/index.html' %}
+
+{% block content %}
+<div class="align-center col-10 offset-1">
+    <div class="d-flex justify-content-between align-items-center">
+        <p class="lead ml-0">Əməliyyatlar</p>
+    </div>
+    <hr/>
+    
+    <main class="d-flex">
+        <section id="account-list" class="col-12">
+            {% include 'partials/account-list.html' %}
+        </section>
+    </main>
+</div>
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends 'base/index.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Müştəri əlavə et</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="client_id">Client ID</label>
+            <input type="text" class="form-control" id="client_id" name="client_id" required>
+            {% if form.client_id.errors %}
+            <small class="form-text text-danger">{{ form.client_id.errors.0 }}</small>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+            {% if form.email.errors %}
+            <small class="form-text text-danger">{{ form.email.errors.0 }}</small>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+            {% if form.password.errors %}
+            <small class="form-text text-danger">{{ form.password.errors.0 }}</small>
+            {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Yadda saxla</button>
+    </form>
+</div>
+{% endblock %}

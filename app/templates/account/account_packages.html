@@ -1,0 +1,26 @@
+{% extends 'base/index.html' %}
+
+{% block content %}
+<!-- The HTML code -->
+<table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Sipariş no</th>
+        <th scope="col">Sipariş tarihi</th>
+        <th scope="col">Alıcı</th>
+        <th scope="col">Teslimat nu</th>
+        <th scope="col">Kargo</th>
+        <th scope="col">Kargo Takip nu</th>
+        <th scope="col">Kategori</th>
+        <th scope="col">Fiyat</th>
+        <th scope="col">Miktar</th>
+        <th scope="col">Bitib</th>
+    </tr>
+    </thead>
+    <tbody hx-target="closest tr" hx-swap="outerHTML swap:1s">
+    <div class="htmx-indicator">Yüklənir...</div>
+    {% include 'account/account_packages_elements.html' %}
+    </tbody>
+</table>
+
+{% endblock %}
