@@ -11,7 +11,5 @@ RUN mkdir /code;
 
 WORKDIR ${APP_ROOT}
 
-RUN pip install --no-cache-dir -r requirements.txt
-
 #USER ${APP_USER}
 ADD . ${APP_ROOT}
