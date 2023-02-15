@@ -70,9 +70,13 @@ services:
     restart: "always"
     build: ../..
     container_name: celery
-    env_file: .env
     environment:
+      - DEBUG=False
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
       - REDIS_PASSWORD=dKqs72RhtaPPYyfN
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     command: celery --app=app.celery:app worker -B --loglevel=INFO
     volumes:
       - ../../app:/code
