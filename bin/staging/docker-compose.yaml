@@ -71,6 +71,8 @@ services:
     build: ../..
     container_name: celery
     env_file: .env
+    environment:
+      - REDIS_PASSWORD=dKqs72RhtaPPYyfN
     command: celery --app=app.celery:app worker -B --loglevel=INFO
     volumes:
       - ../../app:/code

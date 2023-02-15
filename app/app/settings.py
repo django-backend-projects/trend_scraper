@@ -101,6 +101,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 
+BROKER_URL = 'redis://:dKqs72RhtaPPYyfN@redis:6379/0'
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Database
