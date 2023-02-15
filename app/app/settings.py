@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'celery',
     'django_celery_results',
+    'django_celery_beat',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + APPS + THIRD_PARTY_APPS
@@ -89,6 +90,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_IMPORTS = (
+    'core.tasks',
+)
 # ---------------------------------------------------------------------------------------------------------------------
 # Database
 
