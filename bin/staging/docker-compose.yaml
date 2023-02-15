@@ -68,7 +68,7 @@ services:
 
   celery:
     restart: "always"
-    build: .
+    build: ../..
     container_name: celery
     env_file: .env
     command: celery --app=app.celery:app worker -B --loglevel=INFO
