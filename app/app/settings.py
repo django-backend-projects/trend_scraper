@@ -40,7 +40,7 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'celery',
     'django_celery_results',
-    # 'django_celery_beat',
+    'django_celery_beat',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + APPS + THIRD_PARTY_APPS
