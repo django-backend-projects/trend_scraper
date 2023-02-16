@@ -26,7 +26,7 @@ def create_account(request):
     return render(request, 'account/add_user.html', {'form': form})
 
 
-class IndexView(LoginRequiredMixin, ListView):
+class IndexView(ListView):
     template_name = 'home/accounts.html'
     model = Account
     context_object_name = 'accounts'
@@ -57,7 +57,6 @@ def add_account_to_process(request):
     return render(request, 'partials/account-list.html', {'accounts': accounts})
 
 
-@login_required
 def search_account(request):
     search_text = request.POST.get('search')
     results = Account.objects.filter(client_id__icontains=search_text).exclude(is_processing=True)
@@ -69,7 +68,6 @@ def clear(request):
     return HttpResponse("")
 
 
-@login_required
 def account_detail(request, client_id_slug):
     account = Account.objects.get(slug=client_id_slug)
     packages = account.packages.filter(done=False).order_by('created_at')
