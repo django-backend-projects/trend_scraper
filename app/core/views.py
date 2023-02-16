@@ -35,12 +35,10 @@ class IndexView(LoginRequiredMixin, ListView):
         return Account.objects.filter(is_processed=True, done=False).order_by('-processed_at')
 
 
-@login_required
 def add_account_to_process(request):
     client_id = request.POST.get('client_id')
 
     account = Account.objects.get(client_id=client_id)
-    account_id = account.id
 
     account.is_processing = True
     account.is_processed = True
