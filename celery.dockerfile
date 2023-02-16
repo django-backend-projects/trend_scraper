@@ -5,7 +5,7 @@ ENV APP_ROOT /code
 ENV DEBUG False
 
 RUN mkdir /code;
-RUN apt install gcc
+RUN apt-get install gcc
 
 WORKDIR ${APP_ROOT}
 
