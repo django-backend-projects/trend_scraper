@@ -72,14 +72,7 @@ services:
       context: ../..
       dockerfile: celery.dockerfile
     container_name: celery
-    environment:
-      - DEBUG=False
-      - CELERY_BROKER=redis://redis:6379/0
-      - CELERY_BACKEND=redis://redis:6379/0
-      - CELERY_RESULT_BACKEND=redis://redis:6379/0
-      - REDIS_PASSWORD=dKqs72RhtaPPYyfN
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+    env_file: .env
     command: celery --app=app.celery:app worker -B --loglevel=INFO
     volumes:
       - ../../app:/code
