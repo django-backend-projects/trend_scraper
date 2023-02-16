@@ -56,20 +56,20 @@ def debug_task(self):
 if settings.PROD:
     app.conf.update(
         BROKER_URL='redis://:dKqs72RhtaPPYyfN@redis:6379/0',
-        CELERYBEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler',
+        # CELERYBEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler',
         CELERY_RESULT_BACKEND='redis://:dKqs72RhtaPPYyfN@redis:6379/1',
         CELERY_DISABLE_RATE_LIMITS=True,
         CELERY_ACCEPT_CONTENT=['json', ],
         CELERY_TASK_SERIALIZER='json',
         CELERY_RESULT_SERIALIZER='json',
     )
-# else:
-#     app.conf.update(
-#         BROKER_URL='redis://localhost:6379/0',
-#         CELERYBEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler',
-#         CELERY_RESULT_BACKEND='redis://localhost:6379/1',
-#         CELERY_DISABLE_RATE_LIMITS=True,
-#         CELERY_ACCEPT_CONTENT=['json', ],
-#         CELERY_TASK_SERIALIZER='json',
-#         CELERY_RESULT_SERIALIZER='json',
-#     )
+else:
+    app.conf.update(
+        BROKER_URL='redis://localhost:6379/0',
+        # CELERYBEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler',
+        CELERY_RESULT_BACKEND='redis://localhost:6379/1',
+        CELERY_DISABLE_RATE_LIMITS=True,
+        CELERY_ACCEPT_CONTENT=['json', ],
+        CELERY_TASK_SERIALIZER='json',
+        CELERY_RESULT_SERIALIZER='json',
+    )

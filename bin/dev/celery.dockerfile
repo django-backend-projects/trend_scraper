@@ -8,7 +8,8 @@ ENV APP_ROOT /code
 ENV DEBUG True
 
 RUN mkdir /code;
-
+RUN apt-get update && \
+    apt-get install -y gcc
 WORKDIR ${APP_ROOT}
 
 RUN mkdir /config
