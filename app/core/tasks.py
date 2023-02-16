@@ -24,7 +24,7 @@ def scrape_and_save_packages(account_id):
     # options.add_argument('--ignore-ssl-errors=yes')
     # options.add_argument('--ignore-certificate-errors')
     # options.add_argument('--disable-dev-shm-usage')
-    browser = webdriver.Chrome(options=options, executable_path=chrome_driver_path)
+    browser = webdriver.Chrome(options=options)
     # open the main url
     browser.get("https://www.trendyol.com")
     time.sleep(2)
