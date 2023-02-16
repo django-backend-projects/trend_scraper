@@ -73,9 +73,9 @@ services:
       dockerfile: celery.dockerfile
     container_name: celery
     environment:
-      - CELERY_BROKER_URL = 'redis://redis:6379/0'
-      - CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
-      - BROKER_URL = 'redis://:dKqs72RhtaPPYyfN@redis:6379/0'
+      - CELERY_BROKER_URL='redis://redis:6379/0'
+      - CELERY_RESULT_BACKEND='redis://redis:6379/0'
+      - BROKER_URL='redis://:dKqs72RhtaPPYyfN@redis:6379/0'
     command: celery --app=app.celery:app worker -B --loglevel=INFO
     volumes:
       - ../../app:/code
