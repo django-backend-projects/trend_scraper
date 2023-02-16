@@ -13,7 +13,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mgo0xcdbl^%t^^-^2g2es=vt$av_gw7kmzw@jcw0u627()i_lj'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = getenv("DEBUG", False) != "False"
+DEBUG = False
 PROD = not DEBUG
 
 ALLOWED_HOSTS = ['*']
@@ -95,7 +95,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 #     'core.tasks',
 # )
 CELERY_BROKER_URL = 'redis://redis:6379/0'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis:6379/1'
 
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
