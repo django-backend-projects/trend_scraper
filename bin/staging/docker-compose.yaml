@@ -17,12 +17,6 @@ services:
     depends_on:
       - "app"
 
-  selenium:
-    image: selenium/standalone-chrome
-    ports:
-      - 4444:4444
-    restart: always
-
   app:
     container_name: app
     build: ../..
@@ -42,7 +36,6 @@ services:
     depends_on:
       - "postgres"
       - "redis"
-      - "selenium"
 
   postgres:
     container_name:  postgres-db

@@ -11,16 +11,20 @@ from core.models import Account
 from delivery.models import Delivery, Package
 from delivery.utils.scraper import go_till_order_list, scrape_orders
 
+chrome_driver_path = '/home/safex/chromedriver'
+
 
 @shared_task(autoretry_for=(Exception,))
 def scrape_and_save_packages(account_id):
     print('======================  başladıq =========================')
     options = webdriver.ChromeOptions()
-    # # options.add_argument('--headless')  # example
+    options.add_argument('--no-sandbox')
+    options.add_argument('--headless')
+    options.add_argument('--disable-gpu')
     # options.add_argument('--ignore-ssl-errors=yes')
     # options.add_argument('--ignore-certificate-errors')
-    options.add_argument('--disable-dev-shm-usage')
-    browser = webdriver.Remote('http://selenium:4444/wd/hub', desired_capabilities=DesiredCapabilities.CHROME, options=options)
+    # options.add_argument('--disable-dev-shm-usage')
+    browser = webdriver.Chrome(options=options, executable_path=chrome_driver_path)
     # open the main url
     browser.get("https://www.trendyol.com")
     time.sleep(2)
