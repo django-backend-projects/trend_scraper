@@ -37,12 +37,6 @@ services:
       - postgres
       - redis
 
-  selenium:
-    image: selenium/standalone-chrome
-    ports:
-      - 4444:4444
-    restart: always
-
   app:
     container_name: mp-app
     build:
@@ -57,7 +51,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - selenium
     volumes:
       - ../../app:/app
     command: bash -c " source /venv/bin/activate && python /app/manage.py makemigrations --noinput && python /app/manage.py migrate && python /app/manage.py runserver 0.0.0.0:8000"

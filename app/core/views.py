@@ -26,7 +26,7 @@ def create_account(request):
     return render(request, 'account/add_user.html', {'form': form})
 
 
-class IndexView(ListView):
+class IndexView(LoginRequiredMixin, ListView):
     template_name = 'home/accounts.html'
     model = Account
     context_object_name = 'accounts'
@@ -50,7 +50,7 @@ def add_account_to_process(request):
     except Exception as e:
         account.is_processing = False
         account.save()
-        messages.success(request, f"{account} ID-li istifadəçidə problem yarandı, giriş məlumatlarını təkrar yoxlayın")
+        messages.error(request, f"{account} ID-li istifadəçidə problem yarandı, giriş məlumatlarını təkrar yoxlayın")
         print(e)
 
     accounts = Account.objects.filter(is_processed=True, done=False).order_by('-updated_at')
@@ -68,6 +68,7 @@ def clear(request):
     return HttpResponse("")
 
 
+@login_required
 def account_detail(request, client_id_slug):
     account = Account.objects.get(slug=client_id_slug)
     packages = account.packages.filter(done=False).order_by('created_at')

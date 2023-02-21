@@ -94,22 +94,6 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # CELERY_IMPORTS = (
 #     'core.tasks',
 # )
-
-REDIS_HOST = "redis://:dKqs72RhtaPPYyfN@redis:6379/1"
-
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [(REDIS_HOST,)],
-        },
-    },
-}
-
-CELERY_RESULT_BACKEND = 'django-db'
-CELERY_IMPORTS = (
-    'core.tasks',
-)
 # ---------------------------------------------------------------------------------------------------------------------
 # Database
 
@@ -176,8 +160,10 @@ MEDIA_URL = "/media/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login'

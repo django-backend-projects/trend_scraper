@@ -9,3 +9,11 @@ def update_account(sender, instance, **kwargs):
     if all(package.done for package in account.packages.all()):
         account.done = True
         account.save()
+
+
+@receiver(post_save, sender=Package)
+def update_account_done(sender, instance, created, **kwargs):
+    if created:
+        account = instance.account
+        account.done = False
+        account.save()

@@ -8,7 +8,12 @@ WORKDIR ${APP_ROOT}
 
 COPY ./requirements.txt requirements.txt
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+  apt-get install -y \
+  libglib2.0-0 \
+  libnss3 \
+  libgconf-2-4 \
+  libfontconfig \
   locales \
   locales-all \
   build-essential \

@@ -2,9 +2,11 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.chrome.options import Options
 import time
 
 from core.models import Account
@@ -13,18 +15,17 @@ from delivery.utils.scraper import go_till_order_list, scrape_orders
 
 chrome_driver_path = '/home/safex/chromedriver'
 
+USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 
-@shared_task(autoretry_for=(Exception,))
+@shared_task
 def scrape_and_save_packages(account_id):
     print('======================  başladıq =========================')
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
     options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
-    # options.add_argument('--ignore-ssl-errors=yes')
-    # options.add_argument('--ignore-certificate-errors')
-    # options.add_argument('--disable-dev-shm-usage')
-    browser = webdriver.Chrome(options=options)
+    options.add_argument("--disable-dev-shm-usage")
+    ser = Service(executable_path="/usr/local/bin/chromedriver")
+    browser = webdriver.Chrome(options=options, service=ser)
     # open the main url
     browser.get("https://www.trendyol.com")
     time.sleep(2)
