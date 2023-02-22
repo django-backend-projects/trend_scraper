@@ -22,7 +22,7 @@ def scrape_and_save_packages(account_id):
     print('======================  başladıq =========================')
     options = webdriver.ChromeOptions()
     options.add_argument('--no-sandbox')
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument("--disable-dev-shm-usage")
     ser = Service(executable_path="/usr/local/bin/chromedriver")
     browser = webdriver.Chrome(options=options, service=ser)
