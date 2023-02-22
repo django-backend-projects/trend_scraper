@@ -32,6 +32,7 @@ def scrape_and_save_packages(account_id):
     print('======================  trendyola girdi ==================')
     # login and go to my orders section
     account = Account.objects.get(id=account_id)
+    browser.save_screenshot("trend.png")
     go_till_order_list(browser, account)
 
     # scroll to bottom (first 50 orders)
