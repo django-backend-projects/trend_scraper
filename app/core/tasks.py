@@ -24,6 +24,7 @@ def scrape_and_save_packages(account_id):
     options.add_argument('--no-sandbox')
     options.add_argument('--headless')
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--lang=tr-TR")
     ser = Service(executable_path="/usr/local/bin/chromedriver")
     browser = webdriver.Chrome(options=options, service=ser)
     # open the main url
