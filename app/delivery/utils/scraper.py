@@ -3,6 +3,7 @@ from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.action_chains import ActionChains
 import time
 
 
@@ -28,9 +29,19 @@ def go_till_order_list(browser, account):
         time.sleep(2)
     except:
         pass
-    # //*[@id="account-navigation-container"]/div/div[1]/div[1]/p
+    try:
+        action = ActionChains(browser)
+        country = browser.find_element(By.CLASS_NAME, "country")
+        action.move_to_element(country).perform()
+        country_select = browser.find_element(By.CLASS_NAME, "country-select")
+        action.move_to_element(country_select).click().perform()
+        turkey = country_select.find_element(By.CLASS_NAME, "dropdown-item")
+        action.move_to_element(turkey).click().perform()
+    except:
+        pass
+    # login_button = browser.find_element(By.XPATH, "//*[@id='account-navigation-container']/div/div[1]/div[1]/p")
     # click login button
-    login_button = browser.find_element(By.XPATH, "//*[@id='account-navigation-container']/div/div[1]/div[1]/p")
+    login_button = browser.find_element(By.CLASS_NAME, "link-text")
     login_button.click()
     time.sleep(2)
 
