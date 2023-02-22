@@ -61,7 +61,14 @@ def go_till_order_list(browser, account):
     # click my orders button
     my_orders_button = browser.find_element(By.CSS_SELECTOR, ".account-user > p:nth-child(2)")
     my_orders_button.click()
-    time.sleep(1)
+    time.sleep(2)
+
+    # and sort orders for last month
+    last_month_button = browser.find_element(By.CSS_SELECTOR, ".sorting > div:nth-child(1)")
+    last_month_button.click()
+    last_month = browser.find_element(By.CSS_SELECTOR, "div.ty-select-option:nth-child(2)")
+    last_month.click()
+    time.sleep(2)
 
 
 def scrape_orders(browser, orders, user_orders):
