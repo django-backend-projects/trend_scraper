@@ -19,12 +19,15 @@ def scroll_to_bottom(browser, number):
 
 def go_till_order_list(browser, account):
     # select country and press submit
-    print('======================  turkiyeni secir ==================')
-    select = Select(browser.find_element(By.CSS_SELECTOR, ".country-select > select:nth-child(1)"))
-    select.select_by_visible_text("Turkey")
-    select_button = browser.find_element(By.CSS_SELECTOR, ".country-actions > button:nth-child(1)")
-    select_button.click()
-    time.sleep(1)
+    try:
+        print('======================  turkiyeni secir ==================')
+        select = Select(browser.find_element(By.CSS_SELECTOR, ".country-select > select:nth-child(1)"))
+        select.select_by_visible_text("Turkey")
+        select_button = browser.find_element(By.CSS_SELECTOR, ".country-actions > button:nth-child(1)")
+        select_button.click()
+        time.sleep(2)
+    except:
+        pass
 
     # click login button
     login_button = browser.find_element(By.CLASS_NAME, "link-text")
