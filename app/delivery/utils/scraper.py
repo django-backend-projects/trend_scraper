@@ -28,9 +28,9 @@ def go_till_order_list(browser, account):
         time.sleep(2)
     except:
         pass
-
+    # //*[@id="account-navigation-container"]/div/div[1]/div[1]/p
     # click login button
-    login_button = browser.find_element(By.CLASS_NAME, "link-text")
+    login_button = browser.find_element(By.XPATH, "//*[@id='account-navigation-container']/div/div[1]/div[1]/p")
     login_button.click()
     time.sleep(2)
 
