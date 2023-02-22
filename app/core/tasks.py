@@ -24,7 +24,6 @@ def scrape_and_save_packages(account_id):
     options.add_argument('--no-sandbox')
     options.add_argument('--headless')
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--lang=tr-TR")
     ser = Service(executable_path="/usr/local/bin/chromedriver")
     browser = webdriver.Chrome(options=options, service=ser)
     # open the main url
@@ -33,7 +32,6 @@ def scrape_and_save_packages(account_id):
     print('======================  trendyola girdi ==================')
     # login and go to my orders section
     account = Account.objects.get(id=account_id)
-    browser.save_screenshot("trend2.png")
     go_till_order_list(browser, account)
 
     # scroll to bottom (first 50 orders)
