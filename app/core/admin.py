@@ -10,3 +10,5 @@ class AccountAdmin(admin.ModelAdmin):
         "password",
         "processed_at"
     )
+    search_fields = ('client_id', 'email')
+    list_filter = ('processed_at',)
