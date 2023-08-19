@@ -1,3 +1,4 @@
+import time
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
@@ -7,10 +8,14 @@ from django.contrib import messages
 from django.core.paginator import Paginator
 from datetime import datetime
 from django.utils.timezone import make_aware
+import openpyxl
+from django.core.files.storage import default_storage
 
-from core.forms import AddUserForm
-from core.models import Account
-from core.tasks import scrape_and_save_packages
+
+
+from core.forms import AddUserForm, UploadExcelForm
+from core.models import Account, ExcellAsanInfo, ExcellDeclInfo
+from core.tasks import login_to_asan, scrape_and_save_packages
 from delivery.models import Package
 
 
@@ -89,3 +94,132 @@ def done_package(request, package_id):
     package.done = True
     package.save()
     return HttpResponse(status=200)
+
+
+def upload_asan_excell(request):
+    if request.method == 'POST':
+        form = UploadExcelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload-excell-asan-login')
+    else:
+        form = UploadExcelForm()
+
+    return render(request, 'excell/upload1.html', {'form': form})
+
+
+def upload_user_id_and_shipingId(request):
+    if request.method == 'POST':
+        form = UploadExcelForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('upload-excell-user-info')
+    else:
+        form = UploadExcelForm()
+
+    return render(request, 'excell/upload2.html', {'form': form})
+
+
+
+    # Print the result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# =============================MASI===================================
+
+
+
+
+
+
+
+
+
+def process_excell_user_info(request):
+    list_ = []
+
+    # Get the last record
+    record = ExcellAsanInfo.objects.last()
+
+    if record and record.file:
+        # Open the Excel file using openpyxl
+        file_path = default_storage.path(record.file.name)
+        print("file_path", file_path)
+        workbook = openpyxl.load_workbook(file_path)
+        sheet = workbook.active
+
+        # Assuming the headers are in the first row
+        # headers = [cell.value for cell in next(sheet.iter_rows(values_only=True))]
+        headers = [cell for cell in next(sheet.iter_rows(values_only=True))]
+
+        # Verify if headers are present
+        if all(header in headers for header in ["UserID", "FIN", "Pass"]):
+            for row in sheet.iter_rows(min_row=2, values_only=True):
+                list_.append(
+                    {
+                        "UserID": row[headers.index("UserID")],
+                        "FIN": row[headers.index("FIN")],
+                        "Pass": row[headers.index("Pass")],
+                    }
+                )
+                login_to_asan(row[headers.index("UserID")], row[headers.index("FIN")], row[headers.index("Pass")])
+                time.sleep(20000)
+
+
+        workbook.close()
+        print("masildash len: ", len(list_))
+        print("masildash : ", list_[0].get("UserID"))
+        return HttpResponse(list_)
+
+
+# --------------------------------------------------------------------------------
+
+
+def process_excell_decl_info(request):
+
+    import openpyxl
+    from django.core.files.storage import default_storage
+
+    # must be append to list excel data
+    list_ = []
+
+    # Get the last record
+    record = ExcellDeclInfo.objects.last()
+
+    if record and record.file:
+        print('record.file.name', record.file.name)
+        # Open the Excel file using openpyxl
+        file_path = default_storage.path(record.file.name)
+        print('file_path', file_path)
+        workbook = openpyxl.load_workbook(file_path)
+        sheet = workbook.active
+
+        # Assuming the headers are in the first row
+        # headers = [cell.value for cell in next(sheet.iter_rows(values_only=True))]
+        headers = [cell for cell in next(sheet.iter_rows(values_only=True))]
+
+        # Verify if headers are present
+        if all(header in headers for header in ["ShipmentID", "UserID"]):
+            for row in sheet.iter_rows(min_row=2, values_only=True):  # start from the second row
+                list_.append({
+                    "ShipmentID": row[headers.index("ShipmentID")],
+                    "UserID": row[headers.index("UserID")],
+                })
+
+        workbook.close()
+        print('masildash: ', list_)
+        return HttpResponse(list_)

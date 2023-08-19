@@ -11,6 +11,20 @@
                 <a class="nav-link" href="{% url 'login' %}">Giriş</a>
             </li>
             {% endif %}
+            {% if user.is_superuser %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'upload-excell-asan-login' %}">Excell 1</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'upload-excell-user-info' %}">Excell 2</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'process-excell-user-info' %}">Excell 1-i gonder</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'process-excell-decl-info' %}">Excell 2-i gonder</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
     {% if user.is_authenticated %}

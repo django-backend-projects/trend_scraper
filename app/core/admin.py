@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Account
+from .models import Account, ExcellAsanInfo, ExcellDeclInfo
 
 
 @admin.register(Account)
@@ -12,3 +12,7 @@ class AccountAdmin(admin.ModelAdmin):
     )
     search_fields = ('client_id', 'email')
     list_filter = ('processed_at',)
+
+
+admin.site.register(ExcellAsanInfo)
+admin.site.register(ExcellDeclInfo)

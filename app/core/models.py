@@ -55,3 +55,43 @@ class Account(AbstractBaseModel):
     class Meta:
         verbose_name = _("Müştəri")
         verbose_name_plural = _("Müştərilər")
+
+
+class ExcellAsanInfo(AbstractBaseModel):
+    name = models.CharField(
+        _('Ad'),
+        max_length=255,
+    )
+    file = models.FileField(
+        _('Excell fayl'),
+        upload_to='excell_asan_info',
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = _("Asan login Excell fayl")
+        verbose_name_plural = _("Asan login Excell fayllar")
+
+
+class ExcellDeclInfo(AbstractBaseModel):
+    name = models.CharField(
+        _('Ad'),
+        max_length=255,
+    )
+    file = models.FileField(
+        _('Excell fayl'),
+        upload_to='excell_decl_info',
+        null=True,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name = _("Deklarasiya Excell fayl")
+        verbose_name_plural = _("Deklarasiya Excell fayllar")
