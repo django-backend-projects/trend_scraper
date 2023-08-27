@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import Account, ExcellAsanInfo, ExcellDeclInfo
+from .models import (
+    Account, ExcellAsanInfo, ExcellDeclInfo, FailedDeclar
+)
 
 
 @admin.register(Account)
@@ -16,3 +18,4 @@ class AccountAdmin(admin.ModelAdmin):
 
 admin.site.register(ExcellAsanInfo)
 admin.site.register(ExcellDeclInfo)
+admin.site.register(FailedDeclar)

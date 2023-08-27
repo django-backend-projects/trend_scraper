@@ -15,8 +15,9 @@ from django.core.files.storage import default_storage
 
 from core.forms import AddUserForm, UploadExcelForm
 from core.models import Account, ExcellAsanInfo, ExcellDeclInfo
-from core.tasks import login_to_asan, scrape_and_save_packages
+# from core.tasks import assign_order, login_to_asan, scrape_and_save_packages
 from delivery.models import Package
+
 
 
 @login_required
@@ -140,18 +141,9 @@ def upload_user_id_and_shipingId(request):
 
 
 # =============================MASI===================================
-
-
-
-
-
-
-
-
-
 def process_excell_user_info(request):
-    list_ = []
-
+    list_1 = [] 
+    
     # Get the last record
     record = ExcellAsanInfo.objects.last()
 
@@ -169,33 +161,32 @@ def process_excell_user_info(request):
         # Verify if headers are present
         if all(header in headers for header in ["UserID", "FIN", "Pass"]):
             for row in sheet.iter_rows(min_row=2, values_only=True):
-                list_.append(
+                list_1.append(
                     {
                         "UserID": row[headers.index("UserID")],
                         "FIN": row[headers.index("FIN")],
                         "Pass": row[headers.index("Pass")],
                     }
                 )
-                login_to_asan(row[headers.index("UserID")], row[headers.index("FIN")], row[headers.index("Pass")])
-                time.sleep(20000)
+                # login_to_asan(row[headers.index("UserID")], row[headers.index("FIN")], row[headers.index("Pass")])
+                # time.sleep(10)
 
 
         workbook.close()
-        print("masildash len: ", len(list_))
-        print("masildash : ", list_[0].get("UserID"))
-        return HttpResponse(list_)
+                                      
+        return HttpResponse(list_1)
 
 
 # --------------------------------------------------------------------------------
 
 
+list_ = []
 def process_excell_decl_info(request):
 
     import openpyxl
     from django.core.files.storage import default_storage
 
     # must be append to list excel data
-    list_ = []
 
     # Get the last record
     record = ExcellDeclInfo.objects.last()
@@ -221,5 +212,8 @@ def process_excell_decl_info(request):
                 })
 
         workbook.close()
-        print('masildash: ', list_)
+        # for i in list_:
+        #     assign_order(i.get("UserID"), i.get("ShipmentID"))
+        #     time.sleep(50)
+        # print("list_", list_)            
         return HttpResponse(list_)
