@@ -258,7 +258,15 @@
 
 
 
+from celery import shared_task
+from core.utils.excell_task import login_to_asan
+from core.models import FailedDeclar
 
-from app.core.views import list_
 
-print('list_', list_)
+@shared_task
+def rerun_fail_dec():
+    qs = FailedDeclar.objects.filter(is_active=True)
+    if qs.exists():
+        for item in qs:
+            login_to_asan(item.dec_id, item.fin_code, item.password, item.user_id)
+       

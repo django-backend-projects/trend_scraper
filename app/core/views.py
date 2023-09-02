@@ -10,6 +10,7 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 import openpyxl
 from django.core.files.storage import default_storage
+from core.utils.excell_task import upload_func
 
 
 
@@ -122,59 +123,14 @@ def upload_user_id_and_shipingId(request):
 
 
 
-    # Print the result
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # =============================MASI===================================
 def process_excell_user_info(request):
-    list_1 = [] 
     
-    # Get the last record
-    record = ExcellAsanInfo.objects.last()
+    record1 = ExcellAsanInfo.objects.last()
+    record2 = ExcellDeclInfo.objects.last()
 
-    if record and record.file:
-        # Open the Excel file using openpyxl
-        file_path = default_storage.path(record.file.name)
-        print("file_path", file_path)
-        workbook = openpyxl.load_workbook(file_path)
-        sheet = workbook.active
-
-        # Assuming the headers are in the first row
-        # headers = [cell.value for cell in next(sheet.iter_rows(values_only=True))]
-        headers = [cell for cell in next(sheet.iter_rows(values_only=True))]
-
-        # Verify if headers are present
-        if all(header in headers for header in ["UserID", "FIN", "Pass"]):
-            for row in sheet.iter_rows(min_row=2, values_only=True):
-                list_1.append(
-                    {
-                        "UserID": row[headers.index("UserID")],
-                        "FIN": row[headers.index("FIN")],
-                        "Pass": row[headers.index("Pass")],
-                    }
-                )
-                # login_to_asan(row[headers.index("UserID")], row[headers.index("FIN")], row[headers.index("Pass")])
-                # time.sleep(10)
-
-
-        workbook.close()
-                                      
-        return HttpResponse(list_1)
+    return HttpResponse(upload_func(record1, record2))
 
 
 # --------------------------------------------------------------------------------
