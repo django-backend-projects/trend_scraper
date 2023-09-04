@@ -6,7 +6,8 @@ import os
 from django.conf import settings
 from celery import Celery
 
-from app import settings as app_settings
+from celery.schedules import crontab
+
 
 
 logger = logging.getLogger("Celery")
@@ -26,6 +27,14 @@ app.autodiscover_tasks()
 @app.task(bind=True)
 def debug_task(self):
     print("Request: {0!r}".format(self.request))
+
+
+app.conf.beat_schedule = {
+    'rerun_fail_dec': {
+        'task': 'core.tasks.rerun_fail_dec',
+        'schedule': crontab(hour=10, minute=0),
+    },
+}
 
 
 # if settings.PROD:

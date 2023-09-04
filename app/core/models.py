@@ -1,6 +1,10 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
+# import os
+# import django
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'app.settings')
+# django.setup()
 
 from delivery.utils.models import AbstractBaseModel
 
@@ -112,6 +116,10 @@ class FailedDeclar(AbstractBaseModel):
     )
     dec_id = models.CharField(
         _('Göndəriş ID'),
+        max_length=255,
+    )
+    reason = models.CharField(
+        _('Səbəb'),
         max_length=255,
     )
     is_active = models.BooleanField(
