@@ -133,3 +133,25 @@ class FailedDeclar(AbstractBaseModel):
     class Meta:
         verbose_name = _("Uğursuz deklarasiya")
         verbose_name_plural = _("Uğursuz deklarasiyalar")
+
+
+class Declaration(AbstractBaseModel):
+    fin_code = models.CharField(
+        _('Fin kod'),
+        max_length=255,
+    )
+    password = models.CharField(
+        _('Şifrə'),
+        max_length=255,
+    )
+    user_id = models.CharField(
+        _('İstifadəçi ID'),
+        max_length=255,
+    )
+    dec_id = models.CharField(
+        _('Göndəriş ID'),
+        max_length=255,
+    )
+
+    def __str__(self):
+        return self.user_id, self.dec_id
