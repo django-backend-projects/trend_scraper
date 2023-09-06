@@ -5,11 +5,6 @@ import openpyxl
 from django.core.files.storage import default_storage
 
 
-
-
-
-
-
 # ------------------------------------------------------------
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service

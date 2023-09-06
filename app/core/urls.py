@@ -18,4 +18,7 @@ urlpatterns = [
     # process excell data
     path('process-excell-user-info/', views.process_excell_user_info, name='process-excell-user-info'),
     path('process-excell-decl-info/', views.process_excell_decl_info, name='process-excell-decl-info'),
+
+    # press button to process 
+    path('process/', views.process_daclaration, name='process'),
 ]
