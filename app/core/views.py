@@ -175,11 +175,14 @@ def process_excell_decl_info(request):
         return HttpResponse(list_)
     
 
-def process_daclaration(self):
-
+def process_daclaration(request):
+    print('ya sizinkiler')
     all_declare = Declaration.objects.all()
 
     for i in all_declare:
+        print("ya bizimkiler: ", i.dec_id, i.fin_code, i.password, i.user_id)
         login_to_asan(i.dec_id, i.fin_code, i.password, i.user_id)
+
+    return HttpResponse("Done")
         
         

@@ -149,9 +149,9 @@ class Declaration(AbstractBaseModel):
         max_length=255,
     )
     dec_id = models.CharField(
-        _('Göndəriş ID'),
+        _('Declaration ID'),
         max_length=255,
     )
 
     def __str__(self):
-        return self.user_id, self.dec_id
+        return f'{self.user_id} - {self.dec_id}'
