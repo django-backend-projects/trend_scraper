@@ -1,4 +1,5 @@
 
+import random
 from django.http import HttpResponse
 from django.utils.timezone import make_aware
 import openpyxl
@@ -18,7 +19,7 @@ import time
 
 from selenium.webdriver.support.ui import WebDriverWait
 
-from core.models import FailedDeclar
+from core.models import FailedDeclar, Interval
 
 
 chrome_driver_path = "/home/safex/chromedriver"
@@ -166,13 +167,28 @@ def login_to_asan(DecID, FIN, PassWord, UserID):
                     )
                 )
                 turk_lirasi_option.click()
+
+                time.sleep(2)
+                invoys_price_input = form_inputs[2]
+
+                delivery_cost = form_inputs[3]
+                qs = Interval.objects.filter(is_active=True).order_by("price")
+                for i in qs:    
+                    if delivery_cost > i.price:
+                        print("i.price", i.price)
+                        print("i.start_interval", i.start_interval)
+                        print("i.end_interval", i.end_interval)
+                        print('delivery_cost', delivery_cost)
+                        random_pr_price = random.randint(i.start_interval, i.end_interval)
+                        invoys_price_input.send_keys(random_pr_price)
+                        break
                 
+                # kommente aldim deyesen artiqdi
+                # invoys_price_input = form_inputs[2]
+                # invoys_price_input.send_keys(invoys_price)
 
-                invoys_price_input = form_inputs[2]
-                invoys_price_input.send_keys(invoys_price)
-
-                invoys_price_input = form_inputs[2]
-                invoys_price_input.send_keys(invoys_price)
+                # invoys_price_input = form_inputs[2]
+                # invoys_price_input.send_keys(invoys_price)
                 time.sleep(4)
 
                 quantity_select_input = form_inputs[5]
