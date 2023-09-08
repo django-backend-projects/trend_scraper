@@ -6,7 +6,7 @@ class DeclarationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Declaration
-        field = (
+        fields = (
             'fin_code',
             'password',
             'user_id',

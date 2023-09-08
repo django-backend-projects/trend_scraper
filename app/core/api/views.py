@@ -4,21 +4,17 @@ from django.db.models import QuerySet
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 
+from core.models import Declaration
+
 
 from .serializers import DeclarationSerializer
 
 
 class DeclarationListApiView(generics.ListAPIView):
     serializer_class = DeclarationSerializer
-    permission_classes = (permissions.IsAuthenticated,)
+    queryset = Declaration.objects.all()
 
 
 class DeclarationCreateApiView(generics.CreateAPIView):
+    queryset = Declaration.objects.all()
     serializer_class = DeclarationSerializer
-    permission_classes = (permissions.IsAuthenticated,)
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid()
-        serializer.save(user_id=request.user.id)
-        return Response(serializer.data)
