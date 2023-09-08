@@ -19,7 +19,7 @@ import time
 
 from selenium.webdriver.support.ui import WebDriverWait
 
-from core.models import FailedDeclar, Interval
+from core.models import Declaration, FailedDeclar, Interval
 
 
 chrome_driver_path = "/home/safex/chromedriver"
@@ -214,7 +214,10 @@ def login_to_asan(DecID, FIN, PassWord, UserID):
                 if failed_dec:
                     failed_dec.is_active = False
                     failed_dec.save()
-
+                declaration = Declaration.objects.filter(fin_code=FIN, password=PassWord, user_id=UserID, dec_id=DecID).first()
+                if declaration:
+                    declaration.is_declared = True
+                    declaration.save()
             driver.quit()
     except Exception as e:
         FailedDeclar.objects.create(fin_code=FIN, password=PassWord, user_id=UserID, dec_id=DecID, reason=e)

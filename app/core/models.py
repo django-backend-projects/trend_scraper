@@ -123,6 +123,7 @@ class Declaration(AbstractBaseModel):
         _("Declaration ID"),
         max_length=255,
     )
+    is_declared = models.BooleanField(_("Bəyan olunub"), default=False)
 
     def __str__(self):
         return f"{self.user_id} - {self.dec_id}"

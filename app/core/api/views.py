@@ -12,7 +12,7 @@ from .serializers import DeclarationSerializer
 
 class DeclarationListApiView(generics.ListAPIView):
     serializer_class = DeclarationSerializer
-    queryset = Declaration.objects.all()
+    queryset = Declaration.objects.filter(is_declared=False)
 
 
 class DeclarationCreateApiView(generics.CreateAPIView):
