@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import (
-    Account, ExcellAsanInfo, ExcellDeclInfo, FailedDeclar
+    Account, ExcellAsanInfo, ExcellDeclInfo, FailedDeclar, Declaration,
+    Interval,
 )
 
 
@@ -19,3 +20,14 @@ class AccountAdmin(admin.ModelAdmin):
 admin.site.register(ExcellAsanInfo)
 admin.site.register(ExcellDeclInfo)
 admin.site.register(FailedDeclar)
+admin.site.register(Declaration)
+
+@admin.register(Interval)
+class IntervalAdmin(admin.ModelAdmin):
+    list_display = (
+        "price",
+        "start_interval",
+        "end_interval",
+        "is_active",
+    )
+    readonly_fields = ('created_at',)

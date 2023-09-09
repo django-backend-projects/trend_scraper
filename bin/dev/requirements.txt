@@ -2,6 +2,7 @@ amqp==5.1.1
 asgiref==3.6.0
 async-timeout==4.0.3
 attrs==23.1.0
+# backports.zoneinfo==0.2.1
 billiard==3.6.4.0
 celery==5.2.7
 certifi==2023.7.22
@@ -19,12 +20,11 @@ django-htmx==1.13.0
 django-js-asset==2.0.0
 django-timezone-field==5.1
 django-widget-tweaks==1.4.12
-et-xmlfile==1.1.0
+djangorestframework==3.14.0
 exceptiongroup==1.1.2
 h11==0.14.0
 idna==3.4
 kombu==5.3.1
-openpyxl==3.1.2
 outcome==1.2.0
 prompt-toolkit==3.0.39
 psycopg2-binary==2.9.5
@@ -47,3 +47,4 @@ urllib3==1.26.16
 vine==5.0.0
 wcwidth==0.2.6
 wsproto==1.2.0
+openpyxl==3.1.2

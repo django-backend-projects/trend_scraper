@@ -13,6 +13,10 @@
             {% endif %}
             {% if user.is_superuser %}
             <li class="nav-item">
+                <a class="nav-link" href="{% url 'process-declaration' %}">With API</a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'upload-excell-asan-login' %}">Excell 1</a>
             </li>
             <li class="nav-item">

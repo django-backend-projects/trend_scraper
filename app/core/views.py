@@ -10,12 +10,12 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 import openpyxl
 from django.core.files.storage import default_storage
-from core.utils.excell_task import upload_func
+from core.utils.excell_task import login_to_asan, upload_func
 
 
 
 from core.forms import AddUserForm, UploadExcelForm
-from core.models import Account, ExcellAsanInfo, ExcellDeclInfo
+from core.models import Account, ExcellAsanInfo, ExcellDeclInfo, Declaration
 # from core.tasks import assign_order, login_to_asan, scrape_and_save_packages
 from delivery.models import Package
 
@@ -173,3 +173,16 @@ def process_excell_decl_info(request):
         #     time.sleep(50)
         # print("list_", list_)            
         return HttpResponse(list_)
+    
+
+def process_daclaration(request):
+    print('ya sizinkiler')
+    all_declare = Declaration.objects.all()
+
+    for i in all_declare:
+        print("ya bizimkiler: ", i.dec_id, i.fin_code, i.password, i.user_id)
+        login_to_asan(i.dec_id, i.fin_code, i.password, i.user_id)
+
+    return HttpResponse("Done")
+        
+        
