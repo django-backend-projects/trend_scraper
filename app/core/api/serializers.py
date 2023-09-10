@@ -12,3 +12,9 @@ class DeclarationSerializer(serializers.ModelSerializer):
             'user_id',
             'dec_id',
         )
+
+
+class ApplyDeclarationSerializer(serializers.Serializer):
+    fin_code = serializers.CharField()
+    password = serializers.CharField()
+    dec_num = serializers.CharField()

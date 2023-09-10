@@ -84,10 +84,6 @@ class FailedDeclar(AbstractBaseModel):
         _("Şifrə"),
         max_length=255,
     )
-    user_id = models.CharField(
-        _("İstifadəçi ID"),
-        max_length=255,
-    )
     dec_id = models.CharField(
         _("Göndəriş ID"),
         max_length=255,
@@ -99,7 +95,7 @@ class FailedDeclar(AbstractBaseModel):
     is_active = models.BooleanField(_("Aktiv"), default=True)
 
     def __str__(self):
-        return self.user_id, self.dec_id
+        return self.dec_id
 
     class Meta:
         verbose_name = _("Uğursuz deklarasiya")

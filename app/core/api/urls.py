@@ -3,6 +3,5 @@ from . import views
 
 
 urlpatterns = [
-    path('declarations/', views.DeclarationListApiView.as_view(), name='declarations'),
-    path('create-declaration/', views.DeclarationCreateApiView.as_view(), name='create-declaration'),
+    path('send-declarations/', views.ApplySmartCustomsView.as_view(), name='send-declarations'),
 ]

@@ -268,5 +268,9 @@ def rerun_fail_dec():
     qs = FailedDeclar.objects.filter(is_active=True)
     if qs.exists():
         for item in qs:
-            login_to_asan(item.dec_id, item.fin_code, item.password, item.user_id)
-       
+            login_to_asan(item.dec_id, item.fin_code, item.password)
+
+
+@shared_task
+def run_apply_declarations(dec_num, fin_code, password):
+    login_to_asan(dec_num, fin_code, password)

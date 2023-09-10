@@ -1,4 +1,4 @@
-
+import logging
 import random
 from django.http import HttpResponse
 from django.utils.timezone import make_aware
@@ -27,14 +27,15 @@ chrome_driver_path = "/home/safex/chromedriver"
 USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36"
 
 
-def login_to_asan(DecID, FIN, PassWord, UserID):
+def login_to_asan(DecID, FIN, PassWord):
     try:
         print("======================  başladıq =========================")
         options = webdriver.ChromeOptions()
         options.add_argument("--no-sandbox")
-        # options.add_argument('--headless')
+        options.add_argument('--headless')
         options.add_argument("--disable-dev-shm-usage")
-        ser = Service(executable_path="/home/taleh/Downloads/chromedriver/chromedriver")
+        # ser = Service(executable_path="/home/taleh/Downloads/chromedriver/chromedriver")
+        ser = Service(executable_path="/usr/local/bin/chromedriver-linux64/chromedriver")
         driver = webdriver.Chrome(options=options, service=ser)
 
         driver.get(
@@ -210,17 +211,19 @@ def login_to_asan(DecID, FIN, PassWord, UserID):
                 confirm_button.click()
 
                 time.sleep(3)
-                failed_dec = FailedDeclar.objects.filter(fin_code=FIN, password=PassWord, user_id=UserID, dec_id=DecID, is_active=True).first()
-                if failed_dec:
+                if failed_dec := FailedDeclar.objects.filter(
+                        fin_code=FIN,
+                        password=PassWord,
+                        dec_id=DecID,
+                        is_active=True,
+                ).first():
                     failed_dec.is_active = False
                     failed_dec.save()
-                declaration = Declaration.objects.filter(fin_code=FIN, password=PassWord, user_id=UserID, dec_id=DecID).first()
-                if declaration:
-                    declaration.is_declared = True
-                    declaration.save()
             driver.quit()
     except Exception as e:
-        FailedDeclar.objects.create(fin_code=FIN, password=PassWord, user_id=UserID, dec_id=DecID, reason=e)
+        print('ERROR ===============================', e)
+        logging.info(e)
+        FailedDeclar.objects.create(fin_code=FIN, password=PassWord, dec_id=DecID, reason=e)
 
 
 

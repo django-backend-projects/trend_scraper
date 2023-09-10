@@ -4,6 +4,7 @@ bin/dev/redisdb
 bin/staging/postgredb
 bin/staging/redisdb
 
+app/celerybeat-schedule
 app/media
 .venv/
 venv/
