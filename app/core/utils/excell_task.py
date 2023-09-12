@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.utils.timezone import make_aware
 import openpyxl
 from django.core.files.storage import default_storage
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 # ------------------------------------------------------------
@@ -35,8 +37,9 @@ def login_to_asan(DecID, FIN, PassWord):
         options.add_argument('--headless')
         options.add_argument("--disable-dev-shm-usage")
         # ser = Service(executable_path="/home/taleh/Downloads/chromedriver/chromedriver")
-        ser = Service(executable_path="/usr/local/bin/chromedriver-linux64/chromedriver")
-        driver = webdriver.Chrome(options=options, service=ser)
+        ser = Service(executable_path="/usr/local/bin/chromedriver")
+        # driver = webdriver.Chrome(options=options, service=ser)
+        driver = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
 
         driver.get(
             "https://asanlogin.my.gov.az/auth?origin=https:%2F%2Fe.customs.gov.az%2Fauth%2Fasan"
@@ -51,6 +54,7 @@ def login_to_asan(DecID, FIN, PassWord):
             '//*[@id="wrapper"]/div/div/div/div/app-login-tabs/div/div[1]/div[1]/div/p[1]',
         )
         element_p_tag.click()
+        print("======================  klikledi =========================")
         time.sleep(4)
         # login 6ARPY3L
         # password Taleh123
@@ -63,6 +67,7 @@ def login_to_asan(DecID, FIN, PassWord):
         element1_login_input.send_keys(FIN)
         element1_password_input.send_keys(PassWord)
         time.sleep(2)
+        print("======================  login yazildi =========================")
 
         # get send button
         element1_send_button = driver.find_element(
@@ -71,26 +76,37 @@ def login_to_asan(DecID, FIN, PassWord):
         element1_send_button.click()
         time.sleep(4)
 
+        print("======================  login oldu =========================")
+
         menu_button = driver.find_element(By.CLASS_NAME, "jss67")
         menu_button.click()
         time.sleep(4)
+        print("======================  klik 1 =========================")
+
 
         ul_tag1 = driver.find_element(By.CLASS_NAME, "jss197")
         time.sleep(2)
+        print("======================  hec =========================")
+
 
         sec_2 = ul_tag1.find_element(By.XPATH, '/html/body/div[2]/div[3]/div[3]/ul/li[2]/ul/li[1]')
         sec_2.click()
+        time.sleep(4)
+        print("======================  klik 2 =========================")
+
+        # post_dec = driver.find_element(
+        #     By.XPATH,
+        #     '//*[@id="root"]/div[1]/div[1]/div[2]/div/div/section/div/div[2]/div/div[2]',
+        # )
+        hamburger_button = driver.find_element(By.XPATH, '//button[@aria-label="menu button"]')
+        hamburger_button.click()
         time.sleep(2)
 
-        post_dec = driver.find_element(
-            By.XPATH,
-            '//*[@id="root"]/div[1]/div[1]/div[2]/div/div/section/div/div[2]/div/div[2]',
-        )
-
+        post_dec = driver.find_element(By.XPATH, '//a[@href="/for-individuals"]')
         post_dec.click()
         # driver.get("https://e.customs.gov.az/for-individuals")
         time.sleep(4)
-
+        print("======================  klik 3 =========================")
 
         div_items_x_path = '/html/body/div[4]/div[3]/div[2]'
         result = driver.find_element(By.XPATH, div_items_x_path)
