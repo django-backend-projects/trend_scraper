@@ -7,8 +7,6 @@ from django.core.files.storage import default_storage
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
 
-
-# ------------------------------------------------------------
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
@@ -31,15 +29,17 @@ USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Ge
 
 def login_to_asan(DecID, FIN, PassWord):
     try:
-        print("======================  başladıq =========================")
+        print("======================  start =========================")
         options = webdriver.ChromeOptions()
         options.add_argument("--no-sandbox")
-        options.add_argument('--headless')
+        options.add_argument("--headless")
         options.add_argument("--disable-dev-shm-usage")
         # ser = Service(executable_path="/home/taleh/Downloads/chromedriver/chromedriver")
         ser = Service(executable_path="/usr/local/bin/chromedriver")
         # driver = webdriver.Chrome(options=options, service=ser)
-        driver = webdriver.Chrome(options=options, service=ChromeService(ChromeDriverManager().install()))
+        driver = webdriver.Chrome(
+            options=options, service=ChromeService(ChromeDriverManager().install())
+        )
 
         driver.get(
             "https://asanlogin.my.gov.az/auth?origin=https:%2F%2Fe.customs.gov.az%2Fauth%2Fasan"
@@ -54,10 +54,7 @@ def login_to_asan(DecID, FIN, PassWord):
             '//*[@id="wrapper"]/div/div/div/div/app-login-tabs/div/div[1]/div[1]/div/p[1]',
         )
         element_p_tag.click()
-        print("======================  klikledi =========================")
         time.sleep(4)
-        # login 6ARPY3L
-        # password Taleh123
         element1_login_input = driver.find_element(
             By.XPATH, '//*[@id="loginform"]/div[1]/div/div/input'
         )
@@ -67,11 +64,11 @@ def login_to_asan(DecID, FIN, PassWord):
         element1_login_input.send_keys(FIN)
         element1_password_input.send_keys(PassWord)
         time.sleep(2)
-        print("======================  login yazildi =========================")
 
         # get send button
         element1_send_button = driver.find_element(
-            By.XPATH, '//*[@id="wrapper"]/div/div/div/div/app-log-in/div[3]/div/div[2]/div'
+            By.XPATH,
+            '//*[@id="wrapper"]/div/div/div/div/app-log-in/div[3]/div/div[2]/div',
         )
         element1_send_button.click()
         time.sleep(4)
@@ -83,22 +80,22 @@ def login_to_asan(DecID, FIN, PassWord):
         time.sleep(4)
         print("======================  klik 1 =========================")
 
-
         ul_tag1 = driver.find_element(By.CLASS_NAME, "jss197")
         time.sleep(2)
-        print("======================  hec =========================")
 
-
-        sec_2 = ul_tag1.find_element(By.XPATH, '/html/body/div[2]/div[3]/div[3]/ul/li[2]/ul/li[1]')
+        sec_2 = ul_tag1.find_element(
+            By.XPATH, "/html/body/div[2]/div[3]/div[3]/ul/li[2]/ul/li[1]"
+        )
         sec_2.click()
         time.sleep(4)
-        print("======================  klik 2 =========================")
 
         # post_dec = driver.find_element(
         #     By.XPATH,
         #     '//*[@id="root"]/div[1]/div[1]/div[2]/div/div/section/div/div[2]/div/div[2]',
         # )
-        hamburger_button = driver.find_element(By.XPATH, '//button[@aria-label="menu button"]')
+        hamburger_button = driver.find_element(
+            By.XPATH, '//button[@aria-label="menu button"]'
+        )
         hamburger_button.click()
         time.sleep(2)
 
@@ -106,9 +103,8 @@ def login_to_asan(DecID, FIN, PassWord):
         post_dec.click()
         # driver.get("https://e.customs.gov.az/for-individuals")
         time.sleep(4)
-        print("======================  klik 3 =========================")
 
-        div_items_x_path = '/html/body/div[4]/div[3]/div[2]'
+        div_items_x_path = "/html/body/div[4]/div[3]/div[2]"
         result = driver.find_element(By.XPATH, div_items_x_path)
         items = result.find_elements(By.CLASS_NAME, "MuiPaper-root")
         time.sleep(2)
@@ -123,7 +119,6 @@ def login_to_asan(DecID, FIN, PassWord):
                 body_ul = item.find_element(By.CLASS_NAME, "MuiList-dense")
                 body_ul_items = body_ul.find_elements(By.TAG_NAME, "li")
                 print("invoys", body_ul_items[2].text)
-                invoys_price = body_ul_items[2].text
 
                 time.sleep(4)
                 confirm_button = item.find_element(
@@ -175,7 +170,6 @@ def login_to_asan(DecID, FIN, PassWord):
                 diger_option.click()
                 time.sleep(2)
 
-
                 third_popup = popups[2]
                 third_popup.send_keys("Türk lirəsi")
                 turk_lirasi_option = WebDriverWait(driver, 3).until(
@@ -190,22 +184,14 @@ def login_to_asan(DecID, FIN, PassWord):
 
                 delivery_cost = form_inputs[3]
                 qs = Interval.objects.filter(is_active=True).order_by("price")
-                for i in qs:    
+                for i in qs:
                     if delivery_cost > i.price:
-                        print("i.price", i.price)
-                        print("i.start_interval", i.start_interval)
-                        print("i.end_interval", i.end_interval)
-                        print('delivery_cost', delivery_cost)
-                        random_pr_price = random.randint(i.start_interval, i.end_interval)
+                        random_pr_price = random.randint(
+                            i.start_interval, i.end_interval
+                        )
                         invoys_price_input.send_keys(random_pr_price)
                         break
-                
-                # kommente aldim deyesen artiqdi
-                # invoys_price_input = form_inputs[2]
-                # invoys_price_input.send_keys(invoys_price)
 
-                # invoys_price_input = form_inputs[2]
-                # invoys_price_input.send_keys(invoys_price)
                 time.sleep(4)
 
                 quantity_select_input = form_inputs[5]
@@ -223,35 +209,32 @@ def login_to_asan(DecID, FIN, PassWord):
                 checkbox_input.click()
 
                 time.sleep(2)
-                confirm_button = driver.find_element(By.CSS_SELECTOR, 'button[test-id="approve"]')
+                confirm_button = driver.find_element(
+                    By.CSS_SELECTOR, 'button[test-id="approve"]'
+                )
                 confirm_button.click()
 
                 time.sleep(3)
                 if failed_dec := FailedDeclar.objects.filter(
-                        fin_code=FIN,
-                        password=PassWord,
-                        dec_id=DecID,
-                        is_active=True,
+                    fin_code=FIN,
+                    password=PassWord,
+                    dec_id=DecID,
+                    is_active=True,
                 ).first():
                     failed_dec.is_active = False
                     failed_dec.save()
             driver.quit()
     except Exception as e:
-        print('ERROR ===============================', e)
+        print("ERROR ===============================", e)
         logging.info(e)
-        FailedDeclar.objects.create(fin_code=FIN, password=PassWord, dec_id=DecID, reason=e)
-
-
-
-# ----------------------------------------------------------------  
-
-
+        FailedDeclar.objects.create(
+            fin_code=FIN, password=PassWord, dec_id=DecID, reason=e
+        )
 
 
 def upload_func(record1, record2):
-    list_1 = [] 
+    list_1 = []
     list_2 = []
-    
 
     if record1 and record1.file:
         # Open the Excel file using openpyxl
@@ -271,12 +254,15 @@ def upload_func(record1, record2):
                     {
                         "UserID": row[headers.index("UserID")],
                         "FIN": row[headers.index("FIN")],
-                        "Pass": row[headers.index("Pass")] if len(str(row[headers.index("Pass")]).split()) == 1 else str(row[headers.index("Pass")]).split()[0],
+                        "Pass": (
+                            row[headers.index("Pass")]
+                            if len(str(row[headers.index("Pass")]).split()) == 1
+                            else str(row[headers.index("Pass")]).split()[0]
+                        ),
                     }
                 )
         # print("list_1", list_1)
         workbook.close()
-
 
     if record2 and record2.file:
         # Open the Excel file using openpyxl
@@ -290,21 +276,30 @@ def upload_func(record1, record2):
 
         # Verify if headers are present
         if all(header in headers for header in ["ShipmentID", "UserID"]):
-            for row in sheet.iter_rows(min_row=2, values_only=True):  # start from the second row
-                list_2.append({
-                    "ShipmentID": row[headers.index("ShipmentID")],
-                    "UserID": row[headers.index("UserID")],
-                })
+            for row in sheet.iter_rows(
+                min_row=2, values_only=True
+            ):  # start from the second row
+                list_2.append(
+                    {
+                        "ShipmentID": row[headers.index("ShipmentID")],
+                        "UserID": row[headers.index("UserID")],
+                    }
+                )
 
         workbook.close()
-        
+
         for user in list_1:
             for dec in list_2:
                 if user["UserID"] == dec["UserID"]:
                     time.sleep(5)
                     print('dec["ShipmentID"]', dec["ShipmentID"])
-                    print('user["FIN"],', user["FIN"],)
+                    print(
+                        'user["FIN"],',
+                        user["FIN"],
+                    )
                     print('user["Pass"]', user["Pass"])
-                    login_to_asan(dec["ShipmentID"], user["FIN"], user["Pass"], dec["UserID"])
+                    login_to_asan(
+                        dec["ShipmentID"], user["FIN"], user["Pass"], dec["UserID"]
+                    )
 
-        return  HttpResponse("masiltilar yuklendi")
+        return HttpResponse("masiltilar yuklendi")
